@@ -24,6 +24,7 @@ export interface BridgeConnectTabOptions {
    * @default true
    */
   forceSameTabNavigation?: boolean;
+  tabId?: number;
 }
 
 export enum MouseEvent {

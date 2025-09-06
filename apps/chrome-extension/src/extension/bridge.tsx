@@ -129,6 +129,11 @@ export default function Bridge() {
     ),
   );
 
+  // Auto-start bridge mode when component mounts
+  useEffect(() => {
+    startConnection();
+  }, []);
+
   useEffect(() => {
     return () => {
       bridgeConnectorRef.current?.disconnect();
@@ -145,6 +150,7 @@ export default function Bridge() {
       connectionStatusMessageId.current = null;
     }
     bridgeConnectorRef.current?.connect();
+    console.log('已启动 bridge mode 😄');
   };
 
   // clear the message list
