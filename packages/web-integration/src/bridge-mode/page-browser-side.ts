@@ -147,10 +147,11 @@ export class ExtensionBridgePageBrowserSide extends ChromeExtensionProxyPage {
     options: BridgeConnectTabOptions = {
       forceSameTabNavigation: true,
       tabId: undefined,
+      tabIndex: undefined,
     },
   ) {
     const tabs = await chrome.tabs.query({});
-    const tabId = options?.tabId || tabs[tabs.length - 1]?.id;
+    const tabId = options?.tabId || tabs[options?.tabIndex || tabs.length - 1]?.id;
     assert(tabId, 'failed to get tabId');
 
     this.onLogMessage(`Connected to current tab: ${tabId}`, 'log');
