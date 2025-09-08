@@ -57,13 +57,15 @@ export default class ChromeExtensionProxyPage implements AbstractInterface {
     return commonWebActionsForWebPage(this);
   }
 
-  public async setActiveTabId(tabId: number) {
-    if (this.activeTabId) {
+  public async setActiveTabId(tabId: number | null) {
+    if (this.activeTabId && tabId) {
       throw new Error(
         `Active tab id is already set, which is ${this.activeTabId}, cannot set it to ${tabId}`,
       );
     }
-    await chrome.tabs.update(tabId, { active: true });
+    if (tabId) {
+      await chrome.tabs.update(tabId, { active: true });
+    }
     this.activeTabId = tabId;
   }
 

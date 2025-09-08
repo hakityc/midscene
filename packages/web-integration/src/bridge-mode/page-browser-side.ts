@@ -150,8 +150,11 @@ export class ExtensionBridgePageBrowserSide extends ChromeExtensionProxyPage {
       tabIndex: undefined,
     },
   ) {
+    // 清空之前的activeTabId
+    await this.setActiveTabId(null);
+    console.info('connectCurrentTab', options);
     const tabs = await chrome.tabs.query({});
-    const tabId = options?.tabId || tabs[options?.tabIndex || tabs.length - 1]?.id;
+    const tabId = tabs[Number(options?.tabIndex) || tabs.length - 1]?.id;
     assert(tabId, 'failed to get tabId');
 
     this.onLogMessage(`Connected to current tab: ${tabId}`, 'log');
