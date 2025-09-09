@@ -55,7 +55,7 @@ export class ExtensionBridgePageBrowserSide extends ChromeExtensionProxyPage {
         }
 
         if (method === BridgeEvent.ConnectCurrentTab) {
-          return this.connectCurrentTab.apply(this, args as any);
+          return this.connectTab.apply(this, args as any);
         }
 
         if (method === BridgeEvent.UpdateAgentStatus) {
@@ -143,7 +143,7 @@ export class ExtensionBridgePageBrowserSide extends ChromeExtensionProxyPage {
     await this.setActiveTabId(tabId);
   }
 
-  public async connectCurrentTab(
+  public async connectTab(
     options: BridgeConnectTabOptions = {
       forceSameTabNavigation: true,
       tabId: undefined,
@@ -152,12 +152,46 @@ export class ExtensionBridgePageBrowserSide extends ChromeExtensionProxyPage {
   ) {
     // 清空之前的activeTabId
     await this.setActiveTabId(null);
-    console.info('connectCurrentTab', options);
+    console.info('connectTab', options);
     const tabs = await chrome.tabs.query({});
-    const tabId = tabs[Number(options?.tabIndex) || tabs.length - 1]?.id;
+
+    // 处理 tabIndex 逻辑：只有有效的自然数才使用，其他情况使用最后一个标签页
+    let targetTabIndex = tabs.length - 1; // 默认使用最后一个标签页
+
+    if (options?.tabIndex !== undefined) {
+      const parsedIndex = Number(options.tabIndex);
+      // 检查是否为有效的自然数（大于等于0的整数）
+      if (
+        !Number.isNaN(parsedIndex) &&
+        Number.isInteger(parsedIndex) &&
+        parsedIndex >= 0
+      ) {
+        targetTabIndex = parsedIndex;
+      }
+    }
+
+    const tabId = tabs[targetTabIndex]?.id;
     assert(tabId, 'failed to get tabId');
 
     this.onLogMessage(`Connected to current tab: ${tabId}`, 'log');
+
+    if (options?.forceSameTabNavigation) {
+      this.forceSameTabNavigation = true;
+    }
+
+    await this.setActiveTabId(tabId);
+  }
+
+  public async connectCurrentTab(
+    options: BridgeConnectTabOptions = {
+      forceSameTabNavigation: true,
+    },
+  ) {
+    const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
+    const tabId = tabs[0]?.id;
+    assert(tabId, 'failed to get tabId');
+
+    this.onLogMessage(`Connected to current tab: ${tabs[0]?.url}`, 'log');
 
     if (options?.forceSameTabNavigation) {
       this.forceSameTabNavigation = true;
