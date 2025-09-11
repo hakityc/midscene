@@ -95,6 +95,28 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     return true;
   }
 
+  // 新增：处理bridge消息转发到网页
+  if (request.action === 'bridgeMessage') {
+    // 获取当前活跃标签页
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (tabs[0]?.id) {
+        chrome.tabs
+          .sendMessage(tabs[0].id, {
+            action: 'updateWebpageMessage',
+            data: request.data,
+          })
+          .catch((error) => {
+            console.warn(
+              '[ServiceWorker] Failed to send bridge message to tab:',
+              error,
+            );
+          });
+      }
+    });
+    sendResponse({ success: true });
+    return true;
+  }
+
   switch (request.type) {
     case workerMessageTypes.SAVE_CONTEXT: {
       const payload: WorkerRequestSaveContext = request.payload;

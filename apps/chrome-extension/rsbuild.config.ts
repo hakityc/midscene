@@ -35,6 +35,7 @@ export default defineConfig({
           'stop-water-flow': './src/scripts/stop-water-flow.ts',
           'water-flow': './src/scripts/water-flow.ts',
           'event-recorder-bridge': './src/scripts/event-recorder-bridge.ts',
+          'webpage-message-box': './src/scripts/webpage-message-box.ts',
         },
       },
       output: {

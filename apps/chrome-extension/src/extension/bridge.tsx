@@ -26,6 +26,34 @@ interface BridgeMessageItem {
   time: string;
 }
 
+// 通用的消息管理器
+export class BridgeMessageManager {
+  private static instance: BridgeMessageManager;
+
+  static getInstance() {
+    if (!BridgeMessageManager.instance) {
+      BridgeMessageManager.instance = new BridgeMessageManager();
+    }
+    return BridgeMessageManager.instance;
+  }
+
+  // 通用的消息抛出方法
+  emitMessage(content: string, type: 'log' | 'status' = 'status') {
+    // 发送到background script
+    if (chrome?.runtime) {
+      chrome.runtime.sendMessage({
+        action: 'bridgeMessage',
+        data: {
+          content,
+          type,
+          timestamp: new Date().toISOString(),
+          time: dayjs().format('HH:mm:ss.SSS'),
+        },
+      });
+    }
+  }
+}
+
 export default function Bridge() {
   const [bridgeStatus, setBridgeStatus] = useState<BridgeStatus>('closed');
   const [messageList, setMessageList] = useState<BridgeMessageItem[]>([]);
@@ -108,6 +136,9 @@ export default function Bridge() {
       connectionStatusMessageId.current = newMessage.id;
       setMessageList((prev) => [...prev, newMessage]);
     }
+
+    // 新增：通过消息管理器发送到网页
+    BridgeMessageManager.getInstance().emitMessage(content, 'status');
   };
 
   const bridgeConnectorRef = useRef<BridgeConnector | null>(
