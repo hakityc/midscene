@@ -38,6 +38,10 @@ export default function Bridge() {
   // useRef to track the ID of the connection status message
   const connectionStatusMessageId = useRef<string | null>(null);
 
+  useEffect(() => {
+    startConnection();
+  }, []);
+
   // load messages from storage on component mount
   useEffect(() => {
     const loadMessages = async () => {

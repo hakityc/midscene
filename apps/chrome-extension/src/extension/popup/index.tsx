@@ -32,7 +32,7 @@ export function PlaygroundPopup() {
   const { setPopupTab } = useEnvConfig();
   const [currentMode, setCurrentMode] = useState<
     'playground' | 'bridge' | 'recorder'
-  >('playground');
+  >('bridge');
 
   const { config } = useEnvConfig();
 
