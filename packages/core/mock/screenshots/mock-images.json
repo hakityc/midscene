@@ -1,0 +1,30 @@
+{
+  "desktop-1": {
+    "name": "Windows Desktop",
+    "description": "A typical Windows desktop with taskbar and icons",
+    "base64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+    "width": 1920,
+    "height": 1080
+  },
+  "notepad": {
+    "name": "Notepad Application",
+    "description": "Windows Notepad application window",
+    "base64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+    "width": 800,
+    "height": 600
+  },
+  "file-explorer": {
+    "name": "File Explorer",
+    "description": "Windows File Explorer window",
+    "base64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+    "width": 1024,
+    "height": 768
+  },
+  "calculator": {
+    "name": "Calculator",
+    "description": "Windows Calculator application",
+    "base64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+    "width": 320,
+    "height": 400
+  }
+}

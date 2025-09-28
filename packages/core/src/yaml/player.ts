@@ -85,7 +85,11 @@ export class ScriptPlayer<T extends MidsceneYamlScriptEnv> {
     this.scriptPath = scriptPath;
     this.result = {};
     this.target =
-      script.target || script.web || script.android || script.config;
+      script.target ||
+      script.web ||
+      script.android ||
+      script.windows ||
+      script.config;
 
     if (ifInBrowser || ifInWorker) {
       this.output = undefined;
@@ -497,10 +501,11 @@ export class ScriptPlayer<T extends MidsceneYamlScriptEnv> {
   }
 
   async run() {
-    const { target, web, android, tasks } = this.script;
+    const { target, web, android, windows, tasks } = this.script;
     const webEnv = web || target;
     const androidEnv = android;
-    const platform = webEnv || androidEnv;
+    const windowsEnv = windows;
+    const platform = webEnv || androidEnv || windowsEnv;
 
     this.setPlayerStatus('running');
 

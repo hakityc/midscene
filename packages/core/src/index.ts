@@ -37,3 +37,12 @@ export type {
 } from './yaml';
 
 export { Agent, type AgentOpt, createAgent } from './agent';
+export {
+  WindowsAgent,
+  createWindowsAgent,
+  type WindowsAgentOpt,
+} from './agent/windows-agent';
+export {
+  WindowsMockDevice,
+  type WindowsMockOptions,
+} from './device/windows-mock';

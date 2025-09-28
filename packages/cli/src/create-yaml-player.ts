@@ -185,6 +185,27 @@ export async function createYamlPlayer(
         return { agent, freeFn };
       }
 
+      // handle windows
+      if (typeof yamlScript.windows !== 'undefined') {
+        const windowsTarget = yamlScript.windows;
+        const { createWindowsAgent } = await import(
+          '@midscene/core/agent/windows-agent'
+        );
+
+        const agent = await createWindowsAgent({
+          mockOptions: {
+            mockScreenshotDir: windowsTarget.mockScreenshotDir,
+          },
+        });
+
+        freeFn.push({
+          name: 'destroy_windows_agent',
+          fn: () => agent.destroy(),
+        });
+
+        return { agent, freeFn };
+      }
+
       // handle general interface
       if (typeof yamlScript.interface !== 'undefined') {
         const interfaceTarget = yamlScript.interface;

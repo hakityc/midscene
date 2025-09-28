@@ -41,6 +41,7 @@ export interface MidsceneYamlScript {
 
   web?: MidsceneYamlScriptWebEnv;
   android?: MidsceneYamlScriptAndroidEnv;
+  windows?: MidsceneYamlScriptWindowsEnv;
 
   interface?: MidsceneYamlScriptEnvGeneralInterface;
   config?: MidsceneYamlScriptConfig;
@@ -102,9 +103,18 @@ export interface MidsceneYamlScriptAndroidEnv extends MidsceneYamlScriptConfig {
   launch?: string;
 }
 
+export interface MidsceneYamlScriptWindowsEnv extends MidsceneYamlScriptConfig {
+  // Mock mode for Windows platform
+  mockMode?: boolean;
+
+  // Custom screenshot directory for mock mode
+  mockScreenshotDir?: string;
+}
+
 export type MidsceneYamlScriptEnv =
   | MidsceneYamlScriptWebEnv
-  | MidsceneYamlScriptAndroidEnv;
+  | MidsceneYamlScriptAndroidEnv
+  | MidsceneYamlScriptWindowsEnv;
 
 export interface MidsceneYamlFlowItemAIAction {
   ai?: string; // this is the shortcut for aiAction
@@ -198,6 +208,7 @@ export interface MidsceneYamlConfig {
   shareBrowserContext?: boolean;
   web?: MidsceneYamlScriptWebEnv;
   android?: MidsceneYamlScriptAndroidEnv;
+  windows?: MidsceneYamlScriptWindowsEnv;
   files: string[];
   headed?: boolean;
   keepWindow?: boolean;

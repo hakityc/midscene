@@ -516,6 +516,7 @@ export type InterfaceType =
   | 'static'
   | 'chrome-extension-proxy'
   | 'android'
+  | 'windows-mock'
   | string;
 
 export interface StreamingCodeGenerationOptions {

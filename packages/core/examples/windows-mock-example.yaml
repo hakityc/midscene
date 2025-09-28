@@ -1,0 +1,82 @@
+# Windows Mock Environment Example
+# 这个示例展示了如何使用Windows Mock环境进行自动化测试
+
+windows:
+  mockMode: true
+  mockScreenshotDir: "./mock/screenshots"
+  output: "./output/windows-test-result.json"
+
+tasks:
+  - name: "Windows桌面操作测试"
+    flow:
+      - logScreenshot: "初始桌面截图"
+        content: "显示Windows桌面的初始状态"
+      
+      - aiAction: "点击开始菜单"
+      
+      - logScreenshot: "开始菜单打开后"
+        content: "开始菜单已打开"
+      
+      - aiAction: "搜索记事本应用"
+      
+      - aiAction: "打开记事本"
+      
+      - logScreenshot: "记事本应用打开"
+        content: "记事本应用已成功打开"
+      
+      - aiInput: 
+          value: "Hello, Windows Mock Environment!"
+          locate: "记事本文本区域"
+      
+      - logScreenshot: "输入文本后"
+        content: "已在记事本中输入测试文本"
+      
+      - aiAction: "保存文件"
+      
+      - aiAssert: "文件已成功保存"
+        errorMessage: "文件保存失败"
+
+  - name: "文件管理器操作测试"
+    flow:
+      - aiAction: "打开文件管理器"
+      
+      - logScreenshot: "文件管理器界面"
+        content: "文件管理器已打开"
+      
+      - aiAction: "导航到文档文件夹"
+      
+      - aiAction: "创建新文件夹"
+      
+      - aiInput:
+          value: "测试文件夹"
+          locate: "文件夹名称输入框"
+      
+      - aiKeyboardPress:
+          keyName: "Enter"
+      
+      - logScreenshot: "新文件夹创建完成"
+        content: "测试文件夹已创建"
+      
+      - aiAssert: "新文件夹存在于文档目录中"
+        errorMessage: "文件夹创建失败"
+
+  - name: "计算器应用测试"
+    flow:
+      - aiAction: "打开计算器应用"
+      
+      - logScreenshot: "计算器界面"
+        content: "计算器应用已打开"
+      
+      - aiAction: "点击数字7"
+      
+      - aiAction: "点击加号"
+      
+      - aiAction: "点击数字3"
+      
+      - aiAction: "点击等号"
+      
+      - aiAssert: "计算结果显示为10"
+        errorMessage: "计算结果不正确"
+      
+      - logScreenshot: "计算完成"
+        content: "7+3=10的计算已完成"
